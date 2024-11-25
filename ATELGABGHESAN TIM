@@ -39,25 +39,43 @@ begin
     end;
 end;
 
-procedure tampilkanData;
+procedure bacaDataDariFile;
 var
-    i: integer;
+    baris: string;
 begin
-    clrscr;
-    writeln('DATA PENGGAJIAN KARYAWAN');
-    writeln('------------------------');
-    for i := 1 to jumlahKaryawan do
-    begin
-        with dataKaryawan[i] do
+    
+        assign(f, 'C:\TUGASBESAR\data_karyawan.txt');
+        reset(f);
+        jumlahKaryawan := 0;
+        
+        while not eof(f) do
         begin
-            writeln('Karyawan ke-', i);
-            writeln('Nama: ', nama);
-            writeln('Jam Kerja: ', jamKerja, ' jam');
-            writeln('Masa Kerja: ', masaKerja, ' tahun');
-            writeln('Gaji Pokok: Rp ', gajiPokok:0:2);
-            writeln('Total Gaji: Rp ', totalGaji:0:2);
-            writeln('------------------------');
+            readln(f, baris); // Membaca "Karyawan ke-X"
+            if pos('Karyawan ke-', baris) > 0 then
+            begin
+                jumlahKaryawan := jumlahKaryawan + 1;
+                with dataKaryawan[jumlahKaryawan] do
+                begin
+                    readln(f, baris); // Membaca "Nama: XXX"
+                    nama := copy(baris, pos(': ', baris) + 2, length(baris));
+                    
+                    readln(f, baris); // Membaca "Jam Kerja: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), jamKerja);
+                    
+                    readln(f, baris); // Membaca "Masa Kerja: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), masaKerja);
+                    
+                    readln(f, baris); // Membaca "Gaji Pokok: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), gajiPokok);
+                    
+                    readln(f, baris); // Membaca "Total Gaji: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), totalGaji);
+                    
+                    readln(f, baris); // Membaca pembatas "------------"
+                end;
+            end;
         end;
-    end;
-    readln;
+        close(f);
+        writeln('Data berhasil dibaca dari file');
+        readln;
 end;
