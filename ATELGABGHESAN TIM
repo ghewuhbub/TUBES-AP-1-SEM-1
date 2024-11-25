@@ -1,1 +1,40 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+procedure tambahKaryawan;
+begin
+    jumlahKaryawan := jumlahKaryawan + 1;
+    with dataKaryawan[jumlahKaryawan] do
+    begin
+        writeln('Masukkan data karyawan ke-', jumlahKaryawan);
+        write('Nama: ');
+        readln(nama);
+        write('Jam Kerja: ');
+        readln(jamKerja);
+        write('Masa Kerja (tahun): ');
+        readln(masaKerja);
+        write('Gaji Pokok: ');
+        readln(gajiPokok);
+        
+        // Hitung total gaji dengan bonus
+        totalGaji := gajiPokok + (gajiPokok * hitungBonus(masaKerja));
+    end;
+end;
